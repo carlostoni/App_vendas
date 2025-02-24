@@ -28,7 +28,7 @@ class CadastroProdutoPage extends StatelessWidget {
             TextField(
               controller: _pesoController,
               keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Peso (kg)'),
+              decoration: InputDecoration(labelText: 'Peso (g)'),
             ),
             TextField(
               controller: _quantidadeController,

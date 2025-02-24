@@ -132,8 +132,6 @@ void excluirProduto(int index) {
       },
     );
   }
-  
-
   void finalizarPedido() {
     TextEditingController observacaoController = TextEditingController();
 
@@ -221,9 +219,10 @@ void excluirProduto(int index) {
                     },
                     child: Container(
                       decoration: BoxDecoration(
+                        color: Colors.white70,
                         border: Border.all(
                           color: produtosSelecionados.contains(index) ? Colors.blue : Colors.black,
-                          width: produtosSelecionados.contains(index) ? 3 : 1,
+                          width: produtosSelecionados.contains(index) ? 3 : 2,
                         ),
                         borderRadius: BorderRadius.circular(30), // Se não quiser bordas arredondadas
                       ),
@@ -231,9 +230,9 @@ void excluirProduto(int index) {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(produtosCadastrados[index]['nome']),
-                            Text("Peso: ${produtosCadastrados[index]['peso']}kg"),
-                            Text("Qtd: ${produtosCadastrados[index]['quantidade']}"),
+                            Text(produtosCadastrados[index]['nome'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                            Text("Peso: ${produtosCadastrados[index]['peso']}g", style: const TextStyle(fontWeight: FontWeight.bold)),
+                            Text("Qtd: ${produtosCadastrados[index]['quantidade']}", style: const TextStyle(fontWeight: FontWeight.bold)),
                           ],
                         ),
                       ),
