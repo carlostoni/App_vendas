@@ -58,17 +58,19 @@ class _PedidosPageState extends State<PedidosPage> {
     prefs.setString('pedidosSalvos', jsonEncode(pedidosSalvos));
   }
 
- void adicionarProduto(String nome, double peso, int quantidade, String categoria) {
+ void adicionarProduto(String nome, double peso, int quantidade, String categoria, String unidade) {
   setState(() {
     produtosCadastrados.add({
       'nome': nome,
       'peso': peso,
       'quantidade': quantidade,
-      'categoria': categoria, // Adicionando a categoria
+      'categoria': categoria,
+      'unidade': unidade, // Adicionando a unidade
     });
   });
   salvarDados();
 }
+
 void excluirProduto(int index) {
     setState(() {
       produtosCadastrados.removeAt(index);
@@ -174,80 +176,81 @@ void excluirProduto(int index) {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Produtos'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CadastroProdutoPage(onSalvar: adicionarProduto)),
-              );
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.list),
-            onPressed: () {
-              Navigator.push(
-        context,
-          MaterialPageRoute(builder: (context) => PedidosSalvosPage(pedidos: pedidosSalvos)),  // Já é List<Map<String, dynamic>>
-);
-            },
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0), // Ajuste o valor conforme necessário
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                ),
-                itemCount: produtosCadastrados.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      selecionarProduto(index);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        border: Border.all(
-                          color: produtosSelecionados.contains(index) ? Colors.blue : Colors.black,
-                          width: produtosSelecionados.contains(index) ? 3 : 2,
-                        ),
-                        borderRadius: BorderRadius.circular(30), // Se não quiser bordas arredondadas
+ @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: Text('Produtos'),
+      actions: [
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CadastroProdutoPage(onSalvar: adicionarProduto)),
+            );
+          },
+        ),
+        IconButton(
+          icon: Icon(Icons.list),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => PedidosSalvosPage(pedidos: pedidosSalvos)),
+            );
+          },
+        ),
+      ],
+    ),
+    backgroundColor: Colors.white, // Aqui você define a cor de fundo
+    body: Column(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0), // Ajuste o valor conforme necessário
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+              ),
+              itemCount: produtosCadastrados.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    selecionarProduto(index);
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white70,
+                      border: Border.all(
+                        color: produtosSelecionados.contains(index) ? Colors.blue : Colors.black,
+                        width: produtosSelecionados.contains(index) ? 3 : 2,
                       ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(produtosCadastrados[index]['nome'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                            Text("Peso: ${produtosCadastrados[index]['peso']}g", style: const TextStyle(fontWeight: FontWeight.bold)),
-                            Text("Qtd: ${produtosCadastrados[index]['quantidade']}", style: const TextStyle(fontWeight: FontWeight.bold)),
-                          ],
-                        ),
+                      borderRadius: BorderRadius.circular(30), // Se não quiser bordas arredondadas
+                    ),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(produtosCadastrados[index]['nome'], style: const TextStyle(fontWeight: FontWeight.bold)),
+                          Text("Peso: ${produtosCadastrados[index]['peso']}g", style: const TextStyle(fontWeight: FontWeight.bold)),
+                          Text("Qtd: ${produtosCadastrados[index]['quantidade']}", style: const TextStyle(fontWeight: FontWeight.bold)),
+                        ],
                       ),
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
           ),
-          ElevatedButton(
-            onPressed: finalizarPedido,
-            child: Text('FINALIZAR PEDIDO'),
-          ),
-        ],
-      ),
-    );
-  }
+        ),
+        ElevatedButton(
+          onPressed: finalizarPedido,
+          child: Text('FINALIZAR PEDIDO'),
+        ),
+      ],
+    ),
+  );
+}
 }

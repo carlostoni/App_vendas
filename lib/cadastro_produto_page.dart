@@ -1,20 +1,26 @@
-// cadastro_produto_page.dart
 import 'package:flutter/material.dart';
 
-class CadastroProdutoPage extends StatelessWidget {
-  final Function(String, double, int, String) onSalvar;
+class CadastroProdutoPage extends StatefulWidget {
+  final Function(String, double, int, String, String) onSalvar;
 
   CadastroProdutoPage({required this.onSalvar});
 
+  @override
+  _CadastroProdutoPageState createState() => _CadastroProdutoPageState();
+}
+
+class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _pesoController = TextEditingController();
   final TextEditingController _quantidadeController = TextEditingController();
-  final List<String> categorias = ['Alimentos', 'Vestuário', 'Eletrodomésticos', 'Móveis']; // Exemplos de categorias
+  final List<String> categorias = ['Alimentos', 'Vestuário', 'Eletrodomésticos', 'Móveis'];
+  final List<String> unidades = ['g', 'kg', 'ml'];
+
+  String categoriaSelecionada = 'Alimentos';
+  String unidadeSelecionada = 'g';
 
   @override
   Widget build(BuildContext context) {
-    String categoriaSelecionada = categorias[0]; // Categoria padrão
-
     return Scaffold(
       appBar: AppBar(title: Text('Cadastro de Produto')),
       body: Padding(
@@ -25,10 +31,31 @@ class CadastroProdutoPage extends StatelessWidget {
               controller: _nomeController,
               decoration: InputDecoration(labelText: 'Nome do Produto'),
             ),
-            TextField(
-              controller: _pesoController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(labelText: 'Peso (g)'),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _pesoController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(labelText: 'Peso/Volume'),
+                  ),
+                ),
+                SizedBox(width: 10),
+                DropdownButton<String>(
+                  value: unidadeSelecionada,
+                  onChanged: (String? newValue) {
+                    setState(() {
+                      unidadeSelecionada = newValue!;
+                    });
+                  },
+                  items: unidades.map<DropdownMenuItem<String>>((String unidade) {
+                    return DropdownMenuItem<String>(
+                      value: unidade,
+                      child: Text(unidade),
+                    );
+                  }).toList(),
+                ),
+              ],
             ),
             TextField(
               controller: _quantidadeController,
@@ -38,7 +65,9 @@ class CadastroProdutoPage extends StatelessWidget {
             DropdownButton<String>(
               value: categoriaSelecionada,
               onChanged: (String? newValue) {
-                categoriaSelecionada = newValue!;
+                setState(() {
+                  categoriaSelecionada = newValue!;
+                });
               },
               items: categorias.map<DropdownMenuItem<String>>((String categoria) {
                 return DropdownMenuItem<String>(
@@ -53,7 +82,7 @@ class CadastroProdutoPage extends StatelessWidget {
                 final nome = _nomeController.text;
                 final peso = double.tryParse(_pesoController.text) ?? 0.0;
                 final quantidade = int.tryParse(_quantidadeController.text) ?? 1;
-                onSalvar(nome, peso, quantidade, categoriaSelecionada);
+                widget.onSalvar(nome, peso, quantidade, categoriaSelecionada, unidadeSelecionada);
                 Navigator.pop(context);
               },
               child: Text('Salvar'),

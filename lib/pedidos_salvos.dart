@@ -67,10 +67,11 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
             },
             children: [
               ...widget.pedidos[index]['itens']
-                  .map((produto) => ListTile(
-                        title: Text("${produto['nome']} - ${produto['peso']}kg - Qtd: ${produto['quantidade']}"),
-                      ))
-                  .toList(),
+                .map((produto) => ListTile(
+                      title: Text("${produto['nome']} - ${produto['peso']}${produto['unidade']} - Qtd: ${produto['quantidade']}"),
+                    ))
+                .toList(),
+
               ListTile(
                 title: Text('Observação: $observacao', style: TextStyle(fontStyle: FontStyle.italic)),
               ),
