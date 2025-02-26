@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'pdf_generator.dart'; // Importando a nova classe
 
 class PedidosSalvosPage extends StatefulWidget {
   final List<Map<String, dynamic>> pedidos;
@@ -35,7 +36,7 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
             TextButton(
               onPressed: () {
                 setState(() {
-                  widget.pedidos.removeAt(index); // Exclui o pedido
+                  widget.pedidos.removeAt(index);
                 });
                 Navigator.pop(context);
               },
@@ -67,15 +68,16 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
             children: [
               ...widget.pedidos[index]['itens']
                   .map((produto) => ListTile(
-                        title: Text(
-                            "${produto['nome']} - ${produto['peso']}kg - Qtd: ${produto['quantidade']}"),
+                        title: Text("${produto['nome']} - ${produto['peso']}kg - Qtd: ${produto['quantidade']}"),
                       ))
                   .toList(),
               ListTile(
-                title: Text(
-                  'Observação: $observacao',
-                  style: TextStyle(fontStyle: FontStyle.italic),
-                ),
+                title: Text('Observação: $observacao', style: TextStyle(fontStyle: FontStyle.italic)),
+              ),
+              ListTile(
+                title: Text('Gerar PDF'),
+                leading: Icon(Icons.picture_as_pdf, color: Colors.blue),
+                onTap: () => PdfGenerator.generatePdf(widget.pedidos[index], index),
               ),
               ListTile(
                 title: Text('Excluir Pedido'),
