@@ -56,9 +56,9 @@ class PdfGenerator {
                           child: pw.Text(item['nome'], style: pw.TextStyle(fontSize: 14)),
                         ),
                         pw.Padding(
-                          padding: pw.EdgeInsets.all(5),
-                          child: pw.Text("${item['peso']}kg", style: pw.TextStyle(fontSize: 14)),
-                        ),
+                            padding: pw.EdgeInsets.all(5),
+                            child: pw.Text("${item['peso']}${item['unidade']}", style: pw.TextStyle(fontSize: 14)),
+                          ),
                         pw.Padding(
                           padding: pw.EdgeInsets.all(5),
                           child: pw.Text("${item['quantidade']}", style: pw.TextStyle(fontSize: 14)),

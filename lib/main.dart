@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'cadastro_produto_page.dart';
 import 'pedidos_salvos.dart';
+
 void main() {
   runApp(PedidosApp());
 }
@@ -12,6 +13,21 @@ class PedidosApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        scaffoldBackgroundColor:
+            Colors.white, // 🔹 Fundo branco para todas as telas
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white, // 🔹 Deixa a AppBar branca
+          elevation: 0, // 🔹 Remove a sombra (opcional)
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ), // 🔹 Ícones pretos para contraste
+          titleTextStyle: TextStyle(
+            color: Colors.black,
+            fontSize: 20,
+          ), // 🔹 Texto preto
+        ),
+      ),
       home: PedidosPage(),
     );
   }
@@ -41,13 +57,17 @@ class _PedidosPageState extends State<PedidosPage> {
 
     if (produtosString != null) {
       setState(() {
-        produtosCadastrados = List<Map<String, dynamic>>.from(jsonDecode(produtosString));
+        produtosCadastrados = List<Map<String, dynamic>>.from(
+          jsonDecode(produtosString),
+        );
       });
     }
 
     if (pedidosString != null) {
       setState(() {
-        pedidosSalvos = List<Map<String, dynamic>>.from(jsonDecode(pedidosString));
+        pedidosSalvos = List<Map<String, dynamic>>.from(
+          jsonDecode(pedidosString),
+        );
       });
     }
   }
@@ -58,20 +78,26 @@ class _PedidosPageState extends State<PedidosPage> {
     prefs.setString('pedidosSalvos', jsonEncode(pedidosSalvos));
   }
 
- void adicionarProduto(String nome, double peso, int quantidade, String categoria, String unidade) {
-  setState(() {
-    produtosCadastrados.add({
-      'nome': nome,
-      'peso': peso,
-      'quantidade': quantidade,
-      'categoria': categoria,
-      'unidade': unidade, // Adicionando a unidade
+  void adicionarProduto(
+    String nome,
+    double peso,
+    int quantidade,
+    String categoria,
+    String unidade,
+  ) {
+    setState(() {
+      produtosCadastrados.add({
+        'nome': nome,
+        'peso': peso,
+        'quantidade': quantidade,
+        'categoria': categoria,
+        'unidade': unidade, // 🔹 Unidade está garantida aqui
+      });
     });
-  });
-  salvarDados();
-}
+    salvarDados();
+  }
 
-void excluirProduto(int index) {
+  void excluirProduto(int index) {
     setState(() {
       produtosCadastrados.removeAt(index);
     });
@@ -114,7 +140,8 @@ void excluirProduto(int index) {
             TextButton(
               onPressed: () {
                 setState(() {
-                  int novaQuantidade = int.tryParse(quantidadeController.text) ?? 1;
+                  int novaQuantidade =
+                      int.tryParse(quantidadeController.text) ?? 1;
                   produtosCadastrados[index]['quantidade'] = novaQuantidade;
                   pedidoAtual.add(produtosCadastrados[index]);
                 });
@@ -122,7 +149,7 @@ void excluirProduto(int index) {
               },
               child: Text('Salvar'),
             ),
-             TextButton(
+            TextButton(
               onPressed: () {
                 excluirProduto(index);
                 Navigator.pop(context);
@@ -134,6 +161,7 @@ void excluirProduto(int index) {
       },
     );
   }
+
   void finalizarPedido() {
     TextEditingController observacaoController = TextEditingController();
 
@@ -144,7 +172,9 @@ void excluirProduto(int index) {
           title: Text('Observação do Pedido'),
           content: TextField(
             controller: observacaoController,
-            decoration: InputDecoration(labelText: 'Digite uma observação (opcional)'),
+            decoration: InputDecoration(
+              labelText: 'Digite uma observação (opcional)',
+            ),
           ),
           actions: [
             TextButton(
@@ -176,81 +206,110 @@ void excluirProduto(int index) {
     );
   }
 
- @override
-Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: Text('Produtos'),
-      actions: [
-        IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CadastroProdutoPage(onSalvar: adicionarProduto)),
-            );
-          },
-        ),
-        IconButton(
-          icon: Icon(Icons.list),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => PedidosSalvosPage(pedidos: pedidosSalvos)),
-            );
-          },
-        ),
-      ],
-    ),
-    backgroundColor: Colors.white, // Aqui você define a cor de fundo
-    body: Column(
-      children: [
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0), // Ajuste o valor conforme necessário
-            child: GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Produtos'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) =>
+                          CadastroProdutoPage(onSalvar: adicionarProduto),
+                ),
+              );
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.list),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => PedidosSalvosPage(pedidos: pedidosSalvos),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+      backgroundColor: Colors.white, // Aqui você define a cor de fundo
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(
+                16.0,
+              ), // Ajuste o valor conforme necessário
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                ),
+                itemCount: produtosCadastrados.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      selecionarProduto(index);
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white70,
+                        border: Border.all(
+                          color:
+                              produtosSelecionados.contains(index)
+                                  ? Colors.blue
+                                  : Colors.black,
+                          width: produtosSelecionados.contains(index) ? 3 : 2,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          30,
+                        ), // Se não quiser bordas arredondadas
+                      ),
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              produtosCadastrados[index]['nome'],
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "Peso: ${produtosCadastrados[index]['peso']}${produtosCadastrados[index]['unidade']}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "Qtd: ${produtosCadastrados[index]['quantidade']}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
-              itemCount: produtosCadastrados.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    selecionarProduto(index);
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white70,
-                      border: Border.all(
-                        color: produtosSelecionados.contains(index) ? Colors.blue : Colors.black,
-                        width: produtosSelecionados.contains(index) ? 3 : 2,
-                      ),
-                      borderRadius: BorderRadius.circular(30), // Se não quiser bordas arredondadas
-                    ),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(produtosCadastrados[index]['nome'], style: const TextStyle(fontWeight: FontWeight.bold)),
-                          Text("Peso: ${produtosCadastrados[index]['peso']}g", style: const TextStyle(fontWeight: FontWeight.bold)),
-                          Text("Qtd: ${produtosCadastrados[index]['quantidade']}", style: const TextStyle(fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
             ),
           ),
-        ),
-        ElevatedButton(
-          onPressed: finalizarPedido,
-          child: Text('FINALIZAR PEDIDO'),
-        ),
-      ],
-    ),
-  );
-}
+          ElevatedButton(
+            onPressed: finalizarPedido,
+            child: Text('FINALIZAR PEDIDO'),
+          ),
+        ],
+      ),
+    );
+  }
 }
