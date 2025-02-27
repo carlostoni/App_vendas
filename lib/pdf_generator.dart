@@ -53,7 +53,7 @@ class PdfGenerator {
                       children: [
                         pw.Padding(
                           padding: pw.EdgeInsets.all(5),
-                          child: pw.Text(item['nome'], style: pw.TextStyle(fontSize: 14)),
+                          child: pw.Text(item['nome' ], style: pw.TextStyle(fontSize: 14)),
                         ),
                         pw.Padding(
                             padding: pw.EdgeInsets.all(5),

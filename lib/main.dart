@@ -304,9 +304,13 @@ class _PedidosPageState extends State<PedidosPage> {
               ),
             ),
           ),
-          ElevatedButton(
-            onPressed: finalizarPedido,
-            child: Text('FINALIZAR PEDIDO'),
+          SizedBox(
+            width:
+                double.infinity, // Faz o botão ocupar toda a largura disponível
+            child: ElevatedButton(
+              onPressed: finalizarPedido,
+              child: Text('FINALIZAR PEDIDO'),
+            ),
           ),
         ],
       ),
