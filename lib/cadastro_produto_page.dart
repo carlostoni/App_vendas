@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CadastroProdutoPage extends StatefulWidget {
-  final Function(String, double, int, String, String) onSalvar;
+ final Function(String, double, int, double, String, String) onSalvar;
 
   CadastroProdutoPage({required this.onSalvar});
 
@@ -13,7 +13,13 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
   final TextEditingController _nomeController = TextEditingController();
   final TextEditingController _pesoController = TextEditingController();
   final TextEditingController _quantidadeController = TextEditingController();
-  final List<String> categorias = ['Alimentos', 'Vestuário', 'Eletrodomésticos', 'Móveis'];
+  final TextEditingController _precoController = TextEditingController();
+  final List<String> categorias = [
+    'Alimentos',
+    'Vestuário',
+    'Eletrodomésticos',
+    'Móveis',
+  ];
   final List<String> unidades = ['g', 'kg', 'ml'];
 
   String categoriaSelecionada = 'Alimentos';
@@ -48,12 +54,13 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
                       unidadeSelecionada = newValue!;
                     });
                   },
-                  items: unidades.map<DropdownMenuItem<String>>((String unidade) {
-                    return DropdownMenuItem<String>(
-                      value: unidade,
-                      child: Text(unidade),
-                    );
-                  }).toList(),
+                  items:
+                      unidades.map<DropdownMenuItem<String>>((String unidade) {
+                        return DropdownMenuItem<String>(
+                          value: unidade,
+                          child: Text(unidade),
+                        );
+                      }).toList(),
                 ),
               ],
             ),
@@ -62,6 +69,10 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(labelText: 'Quantidade'),
             ),
+            TextField(
+              controller: _precoController,
+              decoration: InputDecoration(labelText: 'Preço'),
+            ),
             DropdownButton<String>(
               value: categoriaSelecionada,
               onChanged: (String? newValue) {
@@ -69,20 +80,30 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
                   categoriaSelecionada = newValue!;
                 });
               },
-              items: categorias.map<DropdownMenuItem<String>>((String categoria) {
-                return DropdownMenuItem<String>(
-                  value: categoria,
-                  child: Text(categoria),
-                );
-              }).toList(),
+              items:
+                  categorias.map<DropdownMenuItem<String>>((String categoria) {
+                    return DropdownMenuItem<String>(
+                      value: categoria,
+                      child: Text(categoria),
+                    );
+                  }).toList(),
             ),
+
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 final nome = _nomeController.text;
                 final peso = double.tryParse(_pesoController.text) ?? 0.0;
                 final quantidade = int.tryParse(_quantidadeController.text) ?? 1;
-                widget.onSalvar(nome, peso, quantidade, categoriaSelecionada, unidadeSelecionada);
+                final preco  = double.tryParse(_precoController.text) ?? 0.0; 
+                widget.onSalvar(
+                  nome,
+                  peso,
+                  quantidade,
+                  preco,
+                  categoriaSelecionada,
+                  unidadeSelecionada,
+                );
                 Navigator.pop(context);
               },
               child: Text('Salvar'),

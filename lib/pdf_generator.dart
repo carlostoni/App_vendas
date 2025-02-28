@@ -26,6 +26,8 @@ class PdfGenerator {
                   0: pw.FlexColumnWidth(3), // Nome maior
                   1: pw.FlexColumnWidth(1), // Peso menor
                   2: pw.FlexColumnWidth(1), // Quantidade menor
+                  3: pw.FlexColumnWidth(1), // Preco
+                  
                 },
                 children: [
                   // Cabeçalho da tabela

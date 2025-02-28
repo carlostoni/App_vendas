@@ -82,6 +82,7 @@ class _PedidosPageState extends State<PedidosPage> {
     String nome,
     double peso,
     int quantidade,
+    double preco,
     String categoria,
     String unidade,
   ) {
