@@ -71,7 +71,7 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
                   .map(
                     (produto) => ListTile(
                       title: Text(
-                        "${produto['nome']} - ${produto['peso']}${produto['unidade']} - Qtd: ${produto['quantidade']}",
+                        "${produto['nome']} - ${produto['peso']}${produto['unidade']} - Qtd: ${produto['quantidade']} - Preço: R\$ ${(produto['preco'] )}",
                       ),
                     ),
                   )

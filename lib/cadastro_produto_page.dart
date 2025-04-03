@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CadastroProdutoPage extends StatefulWidget {
- final Function(String, double, int, double, String, String) onSalvar;
+  final Function(String, double, int, double, String, String) onSalvar;
 
   CadastroProdutoPage({required this.onSalvar});
 
@@ -71,15 +72,22 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
             ),
             TextField(
               controller: _precoController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+              ],
               decoration: InputDecoration(labelText: 'Preço'),
             ),
             DropdownButton<String>(
               value: categoriaSelecionada,
               onChanged: (String? newValue) {
-                setState(() {
-                  categoriaSelecionada = newValue!;
-                });
+                if (newValue != null) {
+                  setState(() {
+                    categoriaSelecionada = newValue;
+                  });
+                }
               },
+
               items:
                   categorias.map<DropdownMenuItem<String>>((String categoria) {
                     return DropdownMenuItem<String>(
@@ -94,8 +102,9 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
               onPressed: () {
                 final nome = _nomeController.text;
                 final peso = double.tryParse(_pesoController.text) ?? 0.0;
-                final quantidade = int.tryParse(_quantidadeController.text) ?? 1;
-                final preco  = double.tryParse(_precoController.text) ?? 0.0; 
+                final quantidade =
+                    int.tryParse(_quantidadeController.text) ?? 1;
+                final preco = double.tryParse(_precoController.text.replaceAll(',', '.'),) ?? 0.0;
                 widget.onSalvar(
                   nome,
                   peso,

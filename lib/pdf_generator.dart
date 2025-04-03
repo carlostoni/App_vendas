@@ -46,6 +46,10 @@ class PdfGenerator {
                         padding: pw.EdgeInsets.all(5),
                         child: pw.Text('Qtd', style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold)),
                       ),
+                      pw.Padding(
+                        padding: pw.EdgeInsets.all(5),
+                        child: pw.Text('Preço', style: pw.TextStyle(fontSize: 16, fontWeight: pw.FontWeight.bold)),
+                      ),
                     ],
                   ),
                   
@@ -64,6 +68,10 @@ class PdfGenerator {
                         pw.Padding(
                           padding: pw.EdgeInsets.all(5),
                           child: pw.Text("${item['quantidade']}", style: pw.TextStyle(fontSize: 14)),
+                        ),
+                        pw.Padding(
+                          padding: pw.EdgeInsets.all(5),
+                          child: pw.Text("${item['preco']}", style: pw.TextStyle(fontSize: 14)),
                         ),
                       ],
                     );

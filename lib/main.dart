@@ -91,8 +91,9 @@ class _PedidosPageState extends State<PedidosPage> {
         'nome': nome,
         'peso': peso,
         'quantidade': quantidade,
+        'preço': preco,
         'categoria': categoria,
-        'unidade': unidade, // 🔹 Unidade está garantida aqui
+        'unidade': unidade,// 🔹 Unidade está garantida aqui
       });
     });
     salvarDados();
@@ -121,15 +122,30 @@ class _PedidosPageState extends State<PedidosPage> {
       text: produtosCadastrados[index]['quantidade'].toString(),
     );
 
+    TextEditingController precoController = TextEditingController(
+      text: produtosCadastrados[index]['preco'].toString(),
+    );
+
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Editar Quantidade'),
-          content: TextField(
-            controller: quantidadeController,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(labelText: 'Quantidade'),
+          title: Text('Editar Produto'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: quantidadeController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(labelText: 'Quantidade'),
+              ),
+              SizedBox(height: 10),
+              TextField(
+                controller: precoController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(labelText: 'Preço (R\$)'),
+              ),
+            ],
           ),
           actions: [
             TextButton(
@@ -143,7 +159,11 @@ class _PedidosPageState extends State<PedidosPage> {
                 setState(() {
                   int novaQuantidade =
                       int.tryParse(quantidadeController.text) ?? 1;
+                  double novoPreco =
+                      double.tryParse(precoController.text) ?? 0.0;
+
                   produtosCadastrados[index]['quantidade'] = novaQuantidade;
+                  produtosCadastrados[index]['preco'] = novoPreco;
                   pedidoAtual.add(produtosCadastrados[index]);
                 });
                 Navigator.pop(context);
