@@ -311,11 +311,17 @@ class _PedidosPageState extends State<PedidosPage> {
                               ),
                             ),
                             Text(
-                              "Qtd: ${produtosCadastrados[index]['quantidade']}",
+                              "Preço: ${produtosCadastrados[index]['preco']}",
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                            Text(
+                              "Qtd: ${produtosCadastrados[index]['quantidade']}",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ), 
                           ],
                         ),
                       ),
