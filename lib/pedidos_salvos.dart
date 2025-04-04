@@ -58,6 +58,13 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
           String observacao =
               widget.pedidos[index]['observacao'] ?? 'Sem observação';
 
+          final totalPedido = (widget.pedidos[index]['itens'] as List)
+              .fold<double>(0.0, (double soma, dynamic produto) {
+                final int quantidade = produto['quantidade'] ?? 0;
+                final double preco = (produto['preco'] ?? 0).toDouble();
+                return soma + (quantidade * preco);
+              });
+
           return ExpansionTile(
             title: Text('Pedido ${index + 1}'),
             initiallyExpanded: _expandidos[index],
@@ -67,15 +74,26 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
               });
             },
             children: [
-              ...widget.pedidos[index]['itens']
-                  .map(
-                    (produto) => ListTile(
-                      title: Text(
-                        "${produto['nome']} - ${produto['peso']}${produto['unidade']} - Qtd: ${produto['quantidade']} - Preço: R\$ ${(produto['preco'] )}",
-                      ),
-                    ),
-                  )
-                  .toList(),
+              ...widget.pedidos[index]['itens'].map<Widget>((produto) {
+                final int quantidade = produto['quantidade'];
+                final double preco = (produto['preco'] ?? 0).toDouble();
+                final double total = quantidade * preco;
+
+                return ListTile(
+                  title: Text(
+                    "${produto['nome']} - ${produto['peso']}${produto['unidade']} - "
+                    "Qtd: $quantidade - Preço: R\$ ${preco.toStringAsFixed(2)} - "
+                    "Total: R\$ ${total.toStringAsFixed(2)}",
+                  ),
+                );
+              }).toList(),
+
+              ListTile(
+                title: Text(
+                  'Total do Pedido: R\$ ${totalPedido.toStringAsFixed(2)}',
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ),
 
               ListTile(
                 title: Text(
