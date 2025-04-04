@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pdf_generator.dart'; // Importando a nova classe
+import 'pdf_generator.dart'; 
 
 class PedidosSalvosPage extends StatefulWidget {
   final List<Map<String, dynamic>> pedidos;

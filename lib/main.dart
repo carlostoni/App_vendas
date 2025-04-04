@@ -18,7 +18,7 @@ class PedidosApp extends StatelessWidget {
             Colors.white, // 🔹 Fundo branco para todas as telas
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white, // 🔹 Deixa a AppBar branca
-          elevation: 0, // 🔹 Remove a sombra (opcional)
+          elevation: 0, 
           iconTheme: IconThemeData(
             color: Colors.black,
           ), // 🔹 Ícones pretos para contraste
@@ -289,7 +289,7 @@ class _PedidosPageState extends State<PedidosPage> {
                               produtosSelecionados.contains(index)
                                   ? Colors.blue
                                   : Colors.black,
-                          width: produtosSelecionados.contains(index) ? 3 : 2,
+                          width: produtosSelecionados.contains(index) ? 3 : 3,
                         ),
                         borderRadius: BorderRadius.circular(
                           30,
