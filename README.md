@@ -1,6 +1,6 @@
 # App Vendas
 
-Este é um aplicativo desenvolvido em Flutter para gerenciar vendas de produtos. Ele permite cadastrar produtos, registrar vendas e visualizar relatórios sobre os itens vendidos.
+Este é um aplicativo desenvolvido em Flutter para gerenciar vendas de produtos. Ele permite cadastrar produtos, registrar vendas, visualizar relatórios sobre os itens vendidos e gerar pdf do pedido.
 
 ## Funcionalidades
 
