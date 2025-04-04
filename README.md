@@ -1,16 +1,65 @@
-# flutter_application_3
+# App Vendas
 
-A new Flutter project.
+Este é um aplicativo desenvolvido em Flutter para gerenciar vendas de produtos. Ele permite cadastrar produtos, registrar vendas e visualizar relatórios sobre os itens vendidos.
 
-## Getting Started
+## Funcionalidades
 
-This project is a starting point for a Flutter application.
+- Cadastro de produtos com nome, preço e estoque
+- Registro de vendas e cálculo automático do total
+- Listagem de vendas realizadas
+- Relatórios básicos de vendas
 
-A few resources to get you started if this is your first Flutter project:
+## Tecnologias Utilizadas
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Flutter
+- Dart
+- SQLite para armazenamento local
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Instalação
+
+1. Clone este repositório:
+   ```bash
+   git clone https://github.com/carlostoni/App_vendas.git
+   ```
+2. Acesse a pasta do projeto:
+   ```bash
+   cd App_vendas
+   ```
+3. Instale as dependências:
+   ```bash
+   flutter pub get
+   ```
+4. Execute o aplicativo:
+   ```bash
+   flutter run
+   ```
+
+## Funcionamento
+
+Veja abaixo um GIF demonstrando o funcionamento do aplicativo:
+
+![Funcionamento do App](caminho/para/seu_gif.gif)
+
+## Contribuição
+
+Contribuições são bem-vindas! Siga os passos abaixo para contribuir:
+
+1. Faça um fork do repositório.
+2. Crie uma nova branch para sua funcionalidade:
+   ```bash
+   git checkout -b minha-feature
+   ```
+3. Commit suas alterações:
+   ```bash
+   git commit -m 'Adiciona nova funcionalidade'
+   ```
+4. Envie para o repositório remoto:
+   ```bash
+   git push origin minha-feature
+   ```
+5. Abra um Pull Request.
+
+## Licença
+
+Este projeto está sob a Licença MIT. Para mais detalhes, consulte o arquivo [LICENSE](LICENSE).
+
