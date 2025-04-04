@@ -79,25 +79,26 @@ class _PedidosPageState extends State<PedidosPage> {
   }
 
   void adicionarProduto(
-    String nome,
-    double peso,
-    int quantidade,
-    double preco,
-    String categoria,
-    String unidade,
-  ) {
-    setState(() {
-      produtosCadastrados.add({
-        'nome': nome,
-        'peso': peso,
-        'quantidade': quantidade,
-        'preço': preco,
-        'categoria': categoria,
-        'unidade': unidade,// 🔹 Unidade está garantida aqui
-      });
+  String nome,
+  double peso,
+  int quantidade,
+  double preco,
+  String categoria,
+  String unidade,
+) {
+  setState(() {
+    produtosCadastrados.add({
+      'nome': nome,
+      'peso': peso,
+      'quantidade': quantidade,
+      'preco': preco, 
+      'categoria': categoria,
+      'unidade': unidade,
     });
-    salvarDados();
-  }
+  });
+  salvarDados();
+}
+
 
   void excluirProduto(int index) {
     setState(() {

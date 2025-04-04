@@ -32,8 +32,8 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
           children: [
             _buildTextField(_nomeController, 'Nome do Produto'),
             _buildPesoVolumeField(),
+            _buildPrecoField(),
             _buildTextField(_quantidadeController, 'Quantidade', isNumeric: true),
-            _buildTextField(_precoController, 'Preço', isDecimal: true),
             _buildDropdown(categorias, categoriaSelecionada, (newValue) {
               setState(() => categoriaSelecionada = newValue);
             }),
@@ -48,7 +48,8 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String label, {bool isNumeric = false, bool isDecimal = false}) {
+  Widget _buildTextField(TextEditingController controller, String label,
+      {bool isNumeric = false, bool isDecimal = false}) {
     return TextField(
       controller: controller,
       keyboardType: isDecimal
@@ -57,7 +58,7 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
               ? TextInputType.number
               : TextInputType.text,
       inputFormatters: isDecimal
-          ? [FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}'))]
+          ? [FilteringTextInputFormatter.allow(RegExp(r'^\d*[\.,]?\d{0,2}'))]
           : null,
       decoration: InputDecoration(labelText: label),
     );
@@ -71,6 +72,22 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
         _buildDropdown(unidades, unidadeSelecionada, (newValue) {
           setState(() => unidadeSelecionada = newValue);
         }),
+      ],
+    );
+  }
+
+  Widget _buildPrecoField() {
+    return Row(
+      children: [
+        const Text('R\$'),
+        const SizedBox(width: 8),
+        Expanded(
+          child: _buildTextField(
+            _precoController,
+            'Preço',
+            isDecimal: true,
+          ),
+        ),
       ],
     );
   }
@@ -89,9 +106,16 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
 
   void _salvarProduto() {
     final nome = _nomeController.text;
-    final peso = double.tryParse(_pesoController.text) ?? 0.0;
-    final quantidade = int.tryParse(_quantidadeController.text) ?? 1;
+    final peso = double.tryParse(_pesoController.text.replaceAll(',', '.')) ?? 0.0;
     final preco = double.tryParse(_precoController.text.replaceAll(',', '.')) ?? 0.0;
+    final quantidade = int.tryParse(_quantidadeController.text) ?? 1;
+
+    // Debug
+    print('Nome: $nome');
+    print('Peso: $peso');
+    print('Preço (texto): ${_precoController.text}');
+    print('Preço (convertido): $preco');
+    print('Quantidade: $quantidade');
 
     widget.onSalvar(nome, peso, quantidade, preco, categoriaSelecionada, unidadeSelecionada);
     Navigator.pop(context);
