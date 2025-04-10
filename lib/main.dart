@@ -17,8 +17,8 @@ class PedidosApp extends StatelessWidget {
         scaffoldBackgroundColor:
             Colors.white, // 🔹 Fundo branco para todas as telas
         appBarTheme: AppBarTheme(
-          backgroundColor: Colors.white, // 🔹 Deixa a AppBar branca
-          elevation: 0,
+          backgroundColor: Colors.teal, // 🔹 Deixa a AppBar branca
+          elevation: 10,
           iconTheme: IconThemeData(
             color: Colors.black,
           ), // 🔹 Ícones pretos para contraste
@@ -243,7 +243,8 @@ class _PedidosPageState extends State<PedidosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Produtos'),
+        title: Text('Produtos', style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.add),

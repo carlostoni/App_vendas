@@ -25,7 +25,8 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Cadastro de Produto', style: TextStyle(fontWeight: FontWeight.bold))),
+      appBar: AppBar(title: const Text('Cadastro de Produto' ,style: TextStyle(fontWeight: FontWeight.bold)),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

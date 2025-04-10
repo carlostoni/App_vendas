@@ -51,7 +51,8 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Pedidos Salvos')),
+      appBar: AppBar(title: Text('Pedidos Salvos',style: TextStyle(fontWeight: FontWeight.bold)),
+      ),
       body: ListView.builder(
         itemCount: widget.pedidos.length,
         itemBuilder: (context, index) {
