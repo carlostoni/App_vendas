@@ -15,20 +15,20 @@ class PedidosApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor:
-            Colors.white, // 🔹 Fundo branco para todas as telas
+            Colors.white, 
         appBarTheme: AppBarTheme(
-          backgroundColor: Colors.teal, // 🔹 Deixa a AppBar branca
+          backgroundColor: Colors.teal, 
           elevation: 10,
           iconTheme: IconThemeData(
             color: Colors.black,
-          ), // 🔹 Ícones pretos para contraste
+          ), 
           titleTextStyle: TextStyle(
             color: Colors.black,
-            fontSize: 20,
+            fontSize: 26,
           ), // 🔹 Texto preto
         ),
       ),
-      home: PedidosPage(),
+      home: Material(elevation: 50, child: PedidosPage()),
     );
   }
 }
@@ -243,8 +243,7 @@ class _PedidosPageState extends State<PedidosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Produtos', style: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        title: Text('Produtos', style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -287,7 +286,10 @@ class _PedidosPageState extends State<PedidosPage> {
                     return ExpansionTile(
                       title: Text(
                         categoria,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
                       ),
                       children: [
                         GridView.builder(
@@ -316,7 +318,7 @@ class _PedidosPageState extends State<PedidosPage> {
                               child: Container(
                                 padding: const EdgeInsets.all(8),
                                 decoration: BoxDecoration(
-                                  color: Colors.white70,
+                                  color: Colors.white,
                                   border: Border.all(
                                     color:
                                         produtosSelecionados.contains(
@@ -327,6 +329,17 @@ class _PedidosPageState extends State<PedidosPage> {
                                     width: 3,
                                   ),
                                   borderRadius: BorderRadius.circular(20),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey,
+                                      spreadRadius: 3,
+                                      blurRadius: 4,
+                                      offset: Offset(
+                                        6,
+                                        2,
+                                      ), // deslocamento da sombra
+                                    ),
+                                  ],
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -335,7 +348,7 @@ class _PedidosPageState extends State<PedidosPage> {
                                       produto['nome'],
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 16,
+                                        fontSize: 20,
                                       ),
                                     ),
                                     SizedBox(height: 3),
@@ -359,6 +372,12 @@ class _PedidosPageState extends State<PedidosPage> {
             width: double.infinity,
             child: ElevatedButton(
               onPressed: finalizarPedido,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal, 
+                foregroundColor: Colors.white, 
+                padding: EdgeInsets.symmetric(vertical: 16),
+                textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
               child: Text('FINALIZAR PEDIDO'),
             ),
           ),

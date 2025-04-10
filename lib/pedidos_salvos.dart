@@ -51,7 +51,7 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Pedidos Salvos',style: TextStyle(fontWeight: FontWeight.bold)),
+      appBar: AppBar(title: Text('Pedidos Salvos',style: TextStyle(fontWeight: FontWeight.bold , fontSize: 26) ),
       ),
       body: ListView.builder(
         itemCount: widget.pedidos.length,
@@ -67,7 +67,7 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
               });
 
           return ExpansionTile(
-            title: Text('Pedido ${index + 1}'),
+            title: Text('Pedido  ${index + 1}' ,style: TextStyle(fontWeight: FontWeight.bold , fontSize: 20) ),
             initiallyExpanded: _expandidos[index],
             onExpansionChanged: (expanded) {
               setState(() {
