@@ -337,7 +337,7 @@ class _PedidosPageState extends State<PedidosPage> {
                                       offset: Offset(
                                         6,
                                         2,
-                                      ), // deslocamento da sombra
+                                      ),
                                     ),
                                   ],
                                 ),

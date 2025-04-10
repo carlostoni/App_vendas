@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CadastroProdutoPage extends StatefulWidget {
   final Function(String, double, int, double, String, String) onSalvar;
@@ -23,9 +24,33 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
   String unidadeSelecionada = 'g';
 
   @override
+  void initState() {
+    super.initState();
+    _carregarCategorias();
+  }
+
+  Future<void> _carregarCategorias() async {
+    final prefs = await SharedPreferences.getInstance();
+    final listaSalva = prefs.getStringList('categorias');
+    setState(() {
+      categorias = listaSalva ?? ['Alimentos'];
+      categoriaSelecionada = categorias.first;
+    });
+  }
+
+  Future<void> _salvarCategorias() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('categorias', categorias);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Cadastro de Produto' ,style: TextStyle(fontWeight: FontWeight.bold , fontSize: 26)),
+      appBar: AppBar(
+        title: const Text(
+          'Cadastro de Produto',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -108,7 +133,7 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
           ),
         ),
         IconButton(
-          icon: Icon(Icons.add),
+          icon: const Icon(Icons.add),
           onPressed: _mostrarDialogoNovaCategoria,
         ),
       ],
@@ -121,28 +146,29 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Nova Categoria'),
+        title: const Text('Nova Categoria'),
         content: TextField(
           controller: controller,
-          decoration: InputDecoration(hintText: 'Digite o nome da categoria'),
+          decoration: const InputDecoration(hintText: 'Digite o nome da categoria'),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: Text('Cancelar'),
+            child: const Text('Cancelar'),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               final novaCategoria = controller.text.trim();
               if (novaCategoria.isNotEmpty && !categorias.contains(novaCategoria)) {
                 setState(() {
                   categorias.add(novaCategoria);
                   categoriaSelecionada = novaCategoria;
                 });
+                await _salvarCategorias();
               }
               Navigator.pop(context);
             },
-            child: Text('Adicionar'),
+            child: const Text('Adicionar'),
           ),
         ],
       ),
