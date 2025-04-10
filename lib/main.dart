@@ -298,7 +298,7 @@ class _PedidosPageState extends State<PedidosPage> {
                                 crossAxisCount: 3,
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 10,
-                                childAspectRatio: 1.1,
+                                childAspectRatio: 1,
                               ),
                           padding: const EdgeInsets.symmetric(
                             horizontal: 5,
