@@ -243,7 +243,7 @@ class _PedidosPageState extends State<PedidosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Produtos', style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text('Produtos', style: TextStyle(fontWeight: FontWeight.bold )),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -348,7 +348,7 @@ class _PedidosPageState extends State<PedidosPage> {
                                       produto['nome'],
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 20,
+                                        fontSize: 14,
                                       ),
                                     ),
                                     SizedBox(height: 3),
@@ -374,7 +374,7 @@ class _PedidosPageState extends State<PedidosPage> {
               onPressed: finalizarPedido,
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.teal, 
-                foregroundColor: Colors.white, 
+                foregroundColor: Colors.black, 
                 padding: EdgeInsets.symmetric(vertical: 16),
                 textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
