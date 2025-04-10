@@ -16,7 +16,7 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
   final _quantidadeController = TextEditingController();
   final _precoController = TextEditingController();
 
-  final List<String> categorias = ['Alimentos', 'Vestuário', 'Eletrodomésticos', 'Móveis'];
+  List<String> categorias = ['Alimentos'];
   final List<String> unidades = ['g', 'kg', 'ml'];
 
   String categoriaSelecionada = 'Alimentos';
@@ -34,9 +34,7 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
             _buildPesoVolumeField(),
             _buildPrecoField(),
             _buildTextField(_quantidadeController, 'Quantidade', isNumeric: true),
-            _buildDropdown(categorias, categoriaSelecionada, (newValue) {
-              setState(() => categoriaSelecionada = newValue);
-            }),
+            _buildCategoriaDropdown(),
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _salvarProduto,
@@ -92,6 +90,64 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
     );
   }
 
+  Widget _buildCategoriaDropdown() {
+    return Row(
+      children: [
+        Expanded(
+          child: DropdownButton<String>(
+            value: categoriaSelecionada,
+            onChanged: (newValue) {
+              if (newValue != null) {
+                setState(() => categoriaSelecionada = newValue);
+              }
+            },
+            items: categorias
+                .map((item) => DropdownMenuItem(value: item, child: Text(item)))
+                .toList(),
+          ),
+        ),
+        IconButton(
+          icon: Icon(Icons.add),
+          onPressed: _mostrarDialogoNovaCategoria,
+        ),
+      ],
+    );
+  }
+
+  void _mostrarDialogoNovaCategoria() {
+    TextEditingController controller = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Nova Categoria'),
+        content: TextField(
+          controller: controller,
+          decoration: InputDecoration(hintText: 'Digite o nome da categoria'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              final novaCategoria = controller.text.trim();
+              if (novaCategoria.isNotEmpty && !categorias.contains(novaCategoria)) {
+                setState(() {
+                  categorias.add(novaCategoria);
+                  categoriaSelecionada = novaCategoria;
+                });
+              }
+              Navigator.pop(context);
+            },
+            child: Text('Adicionar'),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _buildDropdown(List<String> items, String selectedItem, ValueChanged<String> onChanged) {
     return DropdownButton<String>(
       value: selectedItem,
@@ -109,13 +165,6 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
     final peso = double.tryParse(_pesoController.text.replaceAll(',', '.')) ?? 0.0;
     final preco = double.tryParse(_precoController.text.replaceAll(',', '.')) ?? 0.0;
     final quantidade = int.tryParse(_quantidadeController.text) ?? 1;
-
-    // Debug
-    print('Nome: $nome');
-    print('Peso: $peso');
-    print('Preço (texto): ${_precoController.text}');
-    print('Preço (convertido): $preco');
-    print('Quantidade: $quantidade');
 
     widget.onSalvar(nome, peso, quantidade, preco, categoriaSelecionada, unidadeSelecionada);
     Navigator.pop(context);

@@ -18,7 +18,7 @@ class PedidosApp extends StatelessWidget {
             Colors.white, // 🔹 Fundo branco para todas as telas
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.white, // 🔹 Deixa a AppBar branca
-          elevation: 0, 
+          elevation: 0,
           iconTheme: IconThemeData(
             color: Colors.black,
           ), // 🔹 Ícones pretos para contraste
@@ -50,6 +50,18 @@ class _PedidosPageState extends State<PedidosPage> {
     carregarDados();
   }
 
+  Map<String, List<Map<String, dynamic>>> _categoriasComProdutos() {
+    Map<String, List<Map<String, dynamic>>> categoriasMap = {};
+    for (var produto in produtosCadastrados) {
+      final categoria = produto['categoria'];
+      if (!categoriasMap.containsKey(categoria)) {
+        categoriasMap[categoria] = [];
+      }
+      categoriasMap[categoria]!.add(produto);
+    }
+    return categoriasMap;
+  }
+
   Future<void> carregarDados() async {
     final prefs = await SharedPreferences.getInstance();
     final produtosString = prefs.getString('produtosCadastrados');
@@ -79,26 +91,25 @@ class _PedidosPageState extends State<PedidosPage> {
   }
 
   void adicionarProduto(
-  String nome,
-  double peso,
-  int quantidade,
-  double preco,
-  String categoria,
-  String unidade,
-) {
-  setState(() {
-    produtosCadastrados.add({
-      'nome': nome,
-      'peso': peso,
-      'quantidade': quantidade,
-      'preco': preco, 
-      'categoria': categoria,
-      'unidade': unidade,
+    String nome,
+    double peso,
+    int quantidade,
+    double preco,
+    String categoria,
+    String unidade,
+  ) {
+    setState(() {
+      produtosCadastrados.add({
+        'nome': nome,
+        'peso': peso,
+        'quantidade': quantidade,
+        'preco': preco,
+        'categoria': categoria,
+        'unidade': unidade,
+      });
     });
-  });
-  salvarDados();
-}
-
+    salvarDados();
+  }
 
   void excluirProduto(int index) {
     setState(() {
@@ -265,76 +276,86 @@ class _PedidosPageState extends State<PedidosPage> {
       body: Column(
         children: [
           Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(
-                16.0,
-              ), // Ajuste o valor conforme necessário
-              child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                ),
-                itemCount: produtosCadastrados.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      selecionarProduto(index);
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        border: Border.all(
-                          color:
-                              produtosSelecionados.contains(index)
-                                  ? Colors.blue
-                                  : Colors.black,
-                          width: produtosSelecionados.contains(index) ? 3 : 3,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          30,
-                        ), // Se não quiser bordas arredondadas
+            child: ListView(
+              padding: const EdgeInsets.all(16.0),
+              children:
+                  _categoriasComProdutos().entries.map((entry) {
+                    final categoria = entry.key;
+                    final produtos = entry.value;
+
+                    return ExpansionTile(
+                      title: Text(
+                        categoria,
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      child: Center(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              produtosCadastrados[index]['nome'],
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
+                      children: [
+                        GridView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: produtos.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                childAspectRatio: 1.1,
                               ),
-                            ),
-                            Text(
-                              "Peso: ${produtosCadastrados[index]['peso']}${produtosCadastrados[index]['unidade']}",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 5,
+                            vertical: 8,
+                          ),
+                          itemBuilder: (context, index) {
+                            final produto = produtos[index];
+                            final globalIndex = produtosCadastrados.indexOf(
+                              produto,
+                            );
+
+                            return GestureDetector(
+                              onTap: () => selecionarProduto(globalIndex),
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white70,
+                                  border: Border.all(
+                                    color:
+                                        produtosSelecionados.contains(
+                                              globalIndex,
+                                            )
+                                            ? Colors.blue
+                                            : Colors.black,
+                                    width: 3,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      produto['nome'],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    SizedBox(height: 3),
+                                    Text(
+                                      "Peso: ${produto['peso']}${produto['unidade']}",
+                                    ),
+                                    Text("R\$ ${produto['preco']}"),
+                                    Text("Qtd: ${produto['quantidade']}"),
+                                  ],
+                                ),
                               ),
-                            ),
-                            Text(
-                              "Preço: ${produtosCadastrados[index]['preco']}",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              "Qtd: ${produtosCadastrados[index]['quantidade']}",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ), 
-                          ],
+                            );
+                          },
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+                      ],
+                    );
+                  }).toList(),
             ),
           ),
           SizedBox(
-            width:
-                double.infinity, // Faz o botão ocupar toda a largura disponível
+            width: double.infinity,
             child: ElevatedButton(
               onPressed: finalizarPedido,
               child: Text('FINALIZAR PEDIDO'),
