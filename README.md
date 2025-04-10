@@ -38,8 +38,7 @@ Este é um aplicativo desenvolvido em Flutter para gerenciar vendas de produtos.
 
 Veja abaixo um GIF demonstrando o funcionamento do aplicativo:
 
-![Demonstracao gif](https://github.com/user-attachments/assets/08a3817f-bb29-4c5d-bac3-258837180eea)
-
+![demonstracao1](https://github.com/user-attachments/assets/65d0b664-11b2-45b5-a706-6e1c1d9174af)
 
 ## Contribuição
 
