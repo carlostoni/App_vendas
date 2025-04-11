@@ -18,7 +18,7 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
   final _precoController = TextEditingController();
 
   List<String> categorias = ['Alimentos'];
-  final List<String> unidades = ['g', 'kg', 'ml'];
+  final List<String> unidades = ['g', 'kg', 'ml', 'un'];
 
   String categoriaSelecionada = 'Alimentos';
   String unidadeSelecionada = 'g';
@@ -62,9 +62,18 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
             _buildTextField(_quantidadeController, 'Quantidade', isNumeric: true),
             _buildCategoriaDropdown(),
             const SizedBox(height: 16),
+            
             ElevatedButton(
               onPressed: _salvarProduto,
-              child: const Text('Salvar'),
+               style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal, 
+                foregroundColor: Colors.black, 
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+
+                textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ),
+              ),
+              
+              child: const Text('Salvar', style: TextStyle(color: Colors.black)),
             ),
           ],
         ),

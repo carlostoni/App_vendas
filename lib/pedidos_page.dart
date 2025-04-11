@@ -324,7 +324,7 @@ class _PedidosPageState extends State<PedidosPage> {
                                     ),
                                     SizedBox(height: 3),
                                     Text(
-                                      "Peso: ${produto['peso']}${produto['unidade']}",
+                                      "Un: ${produto['peso']}${produto['unidade']}",
                                     ),
                                     Text("R\$ ${produto['preco']}"),
                                     Text("Qtd: ${produto['quantidade']}"),

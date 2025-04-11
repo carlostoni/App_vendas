@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'pdf_generator.dart'; 
+import 'pdf_generator.dart';
 
 class PedidosSalvosPage extends StatefulWidget {
   final List<Map<String, dynamic>> pedidos;
@@ -51,7 +51,11 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Pedidos Salvos',style: TextStyle(fontWeight: FontWeight.bold , fontSize: 26) ),
+      appBar: AppBar(
+        title: Text(
+          'Pedidos Salvos',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+        ),
       ),
       body: ListView.builder(
         itemCount: widget.pedidos.length,
@@ -67,7 +71,10 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
               });
 
           return ExpansionTile(
-            title: Text('Pedido  ${index + 1}' ,style: TextStyle(fontWeight: FontWeight.bold , fontSize: 20) ),
+            title: Text(
+              'Pedido  ${index + 1}',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
             initiallyExpanded: _expandidos[index],
             onExpansionChanged: (expanded) {
               setState(() {
@@ -105,9 +112,15 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
               ListTile(
                 title: Text('Gerar PDF'),
                 leading: Icon(Icons.picture_as_pdf, color: Colors.blue),
-                onTap:
-                    () =>
-                        PdfGenerator.generatePdf(widget.pedidos[index], index),
+                onTap: () async {
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text('Gerando PDF...')));
+                  await PdfGenerator.generatePdf(widget.pedidos[index], index);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('PDF gerado com sucesso!')),
+                  );
+                },
               ),
               ListTile(
                 title: Text('Excluir Pedido'),
