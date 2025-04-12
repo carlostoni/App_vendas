@@ -173,7 +173,6 @@ class _PedidosPageState extends State<PedidosPage> {
     showDialog(
       context: context,
       builder: (context) {
-        
         return AlertDialog(
           backgroundColor: Colors.white,
           title: Text('Observação do Pedido'),
@@ -188,7 +187,7 @@ class _PedidosPageState extends State<PedidosPage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancelar', style: TextStyle(color: Colors.black),),
+              child: Text('Cancelar', style: TextStyle(color: Colors.black)),
             ),
             TextButton(
               onPressed: () {
@@ -205,7 +204,7 @@ class _PedidosPageState extends State<PedidosPage> {
                 }
                 Navigator.pop(context);
               },
-              child: Text('Finalizar', style: TextStyle(color: Colors.teal),),
+              child: Text('Finalizar', style: TextStyle(color: Colors.teal)),
             ),
           ],
         );
@@ -300,57 +299,60 @@ class _PedidosPageState extends State<PedidosPage> {
                               produto,
                             );
 
-                            return GestureDetector(
-                              onTap: () => selecionarProduto(globalIndex),
-                              child: Container(
-                                padding: const EdgeInsets.all(8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    color:
-                                        produtosSelecionados.contains(
-                                              globalIndex,
-                                            )
-                                            ? Colors.blue
-                                            : Colors.black,
-                                    width: 3,
-                                  ),
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.grey,
-                                      spreadRadius: 3,
-                                      blurRadius: 4,
-                                      offset: Offset(6, 2),
+                            return Tooltip(
+                              message: produto['nome'],
+                              child: GestureDetector(
+                                onTap: () => selecionarProduto(globalIndex),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      color:
+                                          produtosSelecionados.contains(
+                                                globalIndex,
+                                              )
+                                              ? Colors.blue
+                                              : Colors.black,
+                                      width: 3,
                                     ),
-                                  ],
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                        produto['nome'],
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey,
+                                        spreadRadius: 3,
+                                        blurRadius: 4,
+                                        offset: Offset(6, 2),
+                                      ),
+                                    ],
+                                  ),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          produto['nome'],
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold, fontSize: 18,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    Flexible(
-                                      child: Text(
-                                        "Un: ${produto['peso']}${produto['unidade']}",
+                                      Flexible(
+                                        child: Text(
+                                          "Un: ${produto['peso']}${produto['unidade']}",
+                                        ),
                                       ),
-                                    ),
-                                    Flexible(
-                                      child: Text("R\$ ${produto['preco']}"),
-                                    ),
-                                    Flexible(
-                                      child: Text(
-                                        "Qtd: ${produto['quantidade']}",
+                                      Flexible(
+                                        child: Text("R\$ ${produto['preco']}"),
                                       ),
-                                    ),
-                                  ],
+                                      Flexible(
+                                        child: Text(
+                                          "Qtd: ${produto['quantidade']}",
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             );
