@@ -5,7 +5,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CadastroProdutoPage extends StatefulWidget {
   final Function(String, double, int, double, String, String) onSalvar;
 
-  const CadastroProdutoPage({Key? key, required this.onSalvar}) : super(key: key);
+  const CadastroProdutoPage({Key? key, required this.onSalvar})
+    : super(key: key);
 
   @override
   _CadastroProdutoPageState createState() => _CadastroProdutoPageState();
@@ -18,6 +19,7 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
   final _precoController = TextEditingController();
 
   List<String> categorias = ['Alimentos'];
+
   final List<String> unidades = ['g', 'kg', 'ml', 'un'];
 
   String categoriaSelecionada = 'Alimentos';
@@ -59,21 +61,26 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
             _buildTextField(_nomeController, 'Nome do Produto'),
             _buildPesoVolumeField(),
             _buildPrecoField(),
-            _buildTextField(_quantidadeController, 'Quantidade', isNumeric: true),
+            _buildTextField(
+              _quantidadeController,
+              'Quantidade',
+              isNumeric: true,
+            ),
             _buildCategoriaDropdown(),
             const SizedBox(height: 16),
-            
+
             ElevatedButton(
               onPressed: _salvarProduto,
-               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal, 
-                foregroundColor: Colors.black, 
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal[100],
+                foregroundColor: Colors.black,
                 padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
-
-                textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold ),
+                textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              
-              child: const Text('Salvar', style: TextStyle(color: Colors.black)),
+              child: const Text(
+                'Salvar',
+                style: TextStyle(color: Colors.black),
+              ),
             ),
           ],
         ),
@@ -81,18 +88,26 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String label,
-      {bool isNumeric = false, bool isDecimal = false}) {
+  Widget _buildTextField(
+    TextEditingController controller,
+    String label, {
+    bool isNumeric = false,
+    bool isDecimal = false,
+  }) {
     return TextField(
       controller: controller,
-      keyboardType: isDecimal
-          ? const TextInputType.numberWithOptions(decimal: true)
-          : isNumeric
+      keyboardType:
+          isDecimal
+              ? const TextInputType.numberWithOptions(decimal: true)
+              : isNumeric
               ? TextInputType.number
               : TextInputType.text,
-      inputFormatters: isDecimal
-          ? [FilteringTextInputFormatter.allow(RegExp(r'^\d*[\.,]?\d{0,2}'))]
-          : null,
+      inputFormatters:
+          isDecimal
+              ? [
+                FilteringTextInputFormatter.allow(RegExp(r'^\d*[\.,]?\d{0,2}')),
+              ]
+              : null,
       decoration: InputDecoration(labelText: label),
     );
   }
@@ -100,7 +115,13 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
   Widget _buildPesoVolumeField() {
     return Row(
       children: [
-        Expanded(child: _buildTextField(_pesoController, 'Peso/Volume', isNumeric: true)),
+        Expanded(
+          child: _buildTextField(
+            _pesoController,
+            'Peso/Volume',
+            isNumeric: true,
+          ),
+        ),
         const SizedBox(width: 10),
         _buildDropdown(unidades, unidadeSelecionada, (newValue) {
           setState(() => unidadeSelecionada = newValue);
@@ -115,11 +136,7 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
         const Text('R\$'),
         const SizedBox(width: 8),
         Expanded(
-          child: _buildTextField(
-            _precoController,
-            'Preço',
-            isDecimal: true,
-          ),
+          child: _buildTextField(_precoController, 'Preço', isDecimal: true),
         ),
       ],
     );
@@ -129,16 +146,31 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
     return Row(
       children: [
         Expanded(
-          child: DropdownButton<String>(
-            value: categoriaSelecionada,
-            onChanged: (newValue) {
-              if (newValue != null) {
-                setState(() => categoriaSelecionada = newValue);
-              }
-            },
-            items: categorias
-                .map((item) => DropdownMenuItem(value: item, child: Text(item)))
-                .toList(),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            child: DropdownButton<String>(
+              value: categoriaSelecionada,
+              onChanged: (newValue) {
+                if (newValue != null) {
+                  setState(() => categoriaSelecionada = newValue);
+                }
+              },
+              dropdownColor: Colors.white, // Cor da lista suspensa
+              isExpanded: true,
+              underline: SizedBox(), // Remove a linha padrão
+              style: const TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+                fontWeight: FontWeight.bold,
+              ),
+              items:
+                  categorias
+                      .map(
+                        (item) =>
+                            DropdownMenuItem(value: item, child: Text(item)),
+                      )
+                      .toList(),
+            ),
           ),
         ),
         IconButton(
@@ -148,61 +180,104 @@ class _CadastroProdutoPageState extends State<CadastroProdutoPage> {
       ],
     );
   }
-
   void _mostrarDialogoNovaCategoria() {
     TextEditingController controller = TextEditingController();
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Nova Categoria'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(hintText: 'Digite o nome da categoria'),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancelar'),
+      builder:
+          (context) => AlertDialog(
+            backgroundColor: Colors.white,
+            title: const Text('Nova Categoria'),
+            content: TextField(
+              controller: controller,
+              decoration: const InputDecoration(
+                hintText: 'Digite o nome da categoria',
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  'Cancelar',
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              TextButton(
+                onPressed: () async {
+                  final novaCategoria = controller.text.trim();
+                  if (novaCategoria.isNotEmpty &&
+                      !categorias.contains(novaCategoria)) {
+                    setState(() {
+                      categorias.add(novaCategoria);
+                      categoriaSelecionada = novaCategoria;
+                    });
+                    await _salvarCategorias();
+                  }
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Adicionar',
+                  style: TextStyle(color: Colors.teal),
+                ),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () async {
-              final novaCategoria = controller.text.trim();
-              if (novaCategoria.isNotEmpty && !categorias.contains(novaCategoria)) {
-                setState(() {
-                  categorias.add(novaCategoria);
-                  categoriaSelecionada = novaCategoria;
-                });
-                await _salvarCategorias();
-              }
-              Navigator.pop(context);
-            },
-            child: const Text('Adicionar'),
-          ),
-        ],
-      ),
     );
   }
 
-  Widget _buildDropdown(List<String> items, String selectedItem, ValueChanged<String> onChanged) {
-    return DropdownButton<String>(
-      value: selectedItem,
-      onChanged: (newValue) {
-        if (newValue != null) {
-          onChanged(newValue);
-        }
-      },
-      items: items.map((item) => DropdownMenuItem(value: item, child: Text(item))).toList(),
+  Widget _buildDropdown(
+    List<String> items,
+    String selectedItem,
+    ValueChanged<String> onChanged,
+  ) {
+    return Container(
+      child: DropdownButton<String>(
+        value: selectedItem,
+        onChanged: (newValue) {
+          if (newValue != null) {
+            onChanged(newValue);
+          }
+        },
+        dropdownColor: Colors.white, // Cor da lista suspensa
+        style: const TextStyle(
+          color: Colors.black, // Cor do texto selecionado
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+        ),
+        underline: SizedBox(),
+        items:
+            items
+                .map(
+                  (item) => DropdownMenuItem(
+                    value: item,
+                    child: Text(
+                      item,
+                      style: const TextStyle(color: Colors.black),
+                    ),
+                  ),
+                )
+                .toList(),
+      ),
     );
   }
 
   void _salvarProduto() {
     final nome = _nomeController.text;
-    final peso = double.tryParse(_pesoController.text.replaceAll(',', '.')) ?? 0.0;
-    final preco = double.tryParse(_precoController.text.replaceAll(',', '.')) ?? 0.0;
+    final peso =
+        double.tryParse(_pesoController.text.replaceAll(',', '.')) ?? 0.0;
+    final preco =
+        double.tryParse(_precoController.text.replaceAll(',', '.')) ?? 0.0;
     final quantidade = int.tryParse(_quantidadeController.text) ?? 1;
 
-    widget.onSalvar(nome, peso, quantidade, preco, categoriaSelecionada, unidadeSelecionada);
+    widget.onSalvar(
+      nome,
+      peso,
+      quantidade,
+      preco,
+      categoriaSelecionada,
+      unidadeSelecionada,
+    );
     Navigator.pop(context);
   }
 }

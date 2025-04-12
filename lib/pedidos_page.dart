@@ -113,6 +113,7 @@ class _PedidosPageState extends State<PedidosPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           title: Text('Editar Produto'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -135,7 +136,7 @@ class _PedidosPageState extends State<PedidosPage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancelar'),
+              child: Text('Cancelar', style: TextStyle(color: Colors.black)),
             ),
             TextButton(
               onPressed: () {
@@ -151,7 +152,7 @@ class _PedidosPageState extends State<PedidosPage> {
                 });
                 Navigator.pop(context);
               },
-              child: Text('Salvar'),
+              child: Text('Salvar', style: TextStyle(color: Colors.teal)),
             ),
             TextButton(
               onPressed: () {
@@ -216,30 +217,43 @@ class _PedidosPageState extends State<PedidosPage> {
       appBar: AppBar(
         title: Text('Produtos', style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
-          IconButton(
-            icon: Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (context) =>
-                          CadastroProdutoPage(onSalvar: adicionarProduto),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Tooltip(
+                message: 'Cadastrar',
+                child: IconButton(
+                  icon: Icon(Icons.add),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) =>
+                                CadastroProdutoPage(onSalvar: adicionarProduto),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-          IconButton(
-            icon: Icon(Icons.list),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder:
-                      (context) => PedidosSalvosPage(pedidos: pedidosSalvos),
+              ),
+              SizedBox(width: 20),
+              Tooltip(
+                message: 'Pedidos',
+                child: IconButton(
+                  icon: Icon(Icons.list),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) =>
+                                PedidosSalvosPage(pedidos: pedidosSalvos),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+            ],
           ),
         ],
       ),
@@ -315,7 +329,10 @@ class _PedidosPageState extends State<PedidosPage> {
                                     Flexible(
                                       child: Text(
                                         produto['nome'],
-                                        textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                     ),
                                     Flexible(
@@ -347,7 +364,7 @@ class _PedidosPageState extends State<PedidosPage> {
             child: ElevatedButton(
               onPressed: finalizarPedido,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
+                backgroundColor: Colors.teal[100],
                 foregroundColor: Colors.black,
                 padding: EdgeInsets.symmetric(vertical: 16),
                 textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),

@@ -109,23 +109,50 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
                   style: TextStyle(fontStyle: FontStyle.italic),
                 ),
               ),
-              ListTile(
-                title: Text('Gerar PDF'),
-                leading: Icon(Icons.picture_as_pdf, color: Colors.blue),
-                onTap: () async {
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text('Gerando PDF...')));
-                  await PdfGenerator.generatePdf(widget.pedidos[index], index);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('PDF gerado com sucesso!')),
-                  );
-                },
-              ),
-              ListTile(
-                title: Text('Excluir Pedido'),
-                leading: Icon(Icons.delete, color: Colors.red),
-                onTap: () => excluirPedido(index),
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () async {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Gerando PDF...')),
+                        );
+                        await PdfGenerator.generatePdf(
+                          widget.pedidos[index],
+                          index,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('PDF gerado com sucesso!')),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.picture_as_pdf, color: Colors.blue),
+                            SizedBox(width: 20),
+                            Text('Gerar PDF'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: InkWell(
+                      onTap: () => excluirPedido(index),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            Icon(Icons.delete, color: Colors.red),
+                            SizedBox(width: 20),
+                            Text('Excluir Pedido'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           );
