@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import 'cadastro_produto_page.dart';
+import '../Cadastro/cadastro_produto_page.dart';
 import 'pedidos_salvos.dart';
 
 class PedidosPage extends StatefulWidget {
