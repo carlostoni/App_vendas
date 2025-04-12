@@ -214,7 +214,7 @@ class _PedidosPageState extends State<PedidosPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Produtos', style: TextStyle(fontWeight: FontWeight.bold )),
+        title: Text('Produtos', style: TextStyle(fontWeight: FontWeight.bold)),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
@@ -305,29 +305,32 @@ class _PedidosPageState extends State<PedidosPage> {
                                       color: Colors.grey,
                                       spreadRadius: 3,
                                       blurRadius: 4,
-                                      offset: Offset(
-                                        6,
-                                        2,
-                                      ),
+                                      offset: Offset(6, 2),
                                     ),
                                   ],
                                 ),
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      produto['nome'],
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
+                                    Flexible(
+                                      child: Text(
+                                        produto['nome'],
+                                        textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold),
                                       ),
                                     ),
-                                    SizedBox(height: 3),
-                                    Text(
-                                      "Un: ${produto['peso']}${produto['unidade']}",
+                                    Flexible(
+                                      child: Text(
+                                        "Un: ${produto['peso']}${produto['unidade']}",
+                                      ),
                                     ),
-                                    Text("R\$ ${produto['preco']}"),
-                                    Text("Qtd: ${produto['quantidade']}"),
+                                    Flexible(
+                                      child: Text("R\$ ${produto['preco']}"),
+                                    ),
+                                    Flexible(
+                                      child: Text(
+                                        "Qtd: ${produto['quantidade']}",
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -344,8 +347,8 @@ class _PedidosPageState extends State<PedidosPage> {
             child: ElevatedButton(
               onPressed: finalizarPedido,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal, 
-                foregroundColor: Colors.black, 
+                backgroundColor: Colors.teal,
+                foregroundColor: Colors.black,
                 padding: EdgeInsets.symmetric(vertical: 16),
                 textStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
