@@ -24,6 +24,7 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          backgroundColor: Colors.white,
           title: Text('Deseja excluir este pedido?'),
           content: Text('Pedido ${index + 1}'),
           actions: [
@@ -31,7 +32,7 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancelar'),
+              child: Text('Cancelar', style: TextStyle(color: Colors.black),),
             ),
             TextButton(
               onPressed: () {
@@ -40,7 +41,7 @@ class _PedidosSalvosPageState extends State<PedidosSalvosPage> {
                 });
                 Navigator.pop(context);
               },
-              child: Text('Excluir'),
+              child: Text('Excluir', style: TextStyle(color: Colors.red),),
             ),
           ],
         );

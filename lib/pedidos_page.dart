@@ -173,7 +173,9 @@ class _PedidosPageState extends State<PedidosPage> {
     showDialog(
       context: context,
       builder: (context) {
+        
         return AlertDialog(
+          backgroundColor: Colors.white,
           title: Text('Observação do Pedido'),
           content: TextField(
             controller: observacaoController,
@@ -186,7 +188,7 @@ class _PedidosPageState extends State<PedidosPage> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              child: Text('Cancelar'),
+              child: Text('Cancelar', style: TextStyle(color: Colors.black),),
             ),
             TextButton(
               onPressed: () {
@@ -203,7 +205,7 @@ class _PedidosPageState extends State<PedidosPage> {
                 }
                 Navigator.pop(context);
               },
-              child: Text('Finalizar'),
+              child: Text('Finalizar', style: TextStyle(color: Colors.teal),),
             ),
           ],
         );
